@@ -11,7 +11,7 @@
 <body>
     <h2>Formulario de Informe Diario de Trabajo</h2>
     <!-- Ensure your form has the following attributes for Netlify -->
-    <form id="jobReportForm" method="POST" data-netlify="true" action="/success" netlify>
+    <form id="jobReportForm" method="POST" data-netlify="true" action="/success">
         <input type="hidden" name="form-name" value="jobReportForm"> <!-- This hidden input is required by Netlify -->
 
         <!-- Your existing form fields -->
@@ -105,8 +105,35 @@
             document.getElementById('netEarnings').value = netEarnings.toFixed(2);
 
             // Optionally send data to a server or store it locally
-            alert('Informe Enviado Exitosamente');
+            // alert('Informe Enviado Exitosamente');
+            
+            // Uncomment below to submit the form programmatically using Fetch API (AJAX)
+            // submitFormData();
         });
+
+        // Optional: Function to submit form data programmatically using Fetch API
+        function submitFormData() {
+            const form = document.getElementById('jobReportForm');
+            fetch(form.getAttribute('action'), {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams(new FormData(form)).toString(),
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Optionally handle success
+                    console.log('Formulario enviado exitosamente');
+                } else {
+                    // Optionally handle error
+                    console.error('Error al enviar formulario');
+                }
+            })
+            .catch(error => {
+                console.error('Error de red:', error);
+            });
+        }
     </script>
 </body>
 </html>
